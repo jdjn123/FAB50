@@ -1,0 +1,156 @@
+{
+  "hostname": "DESKTOP-M9D3G98",
+  "last_update": "2025-08-15T15:06:42.9820797+08:00",
+  "hardware_info": [
+    {
+      "hostname": "DESKTOP-M9D3G98",
+      "timestamp": "2025-08-15T15:06:42.9737447+08:00",
+      "cpu": {
+        "model_name": "13th Gen Intel(R) Core(TM) i5-13500HX",
+        "cores": 14,
+        "usage": 3.71575030574276,
+        "temperature": 0,
+        "frequency": 0
+      },
+      "memory": {
+        "total": 16886784000,
+        "used": 14991896576,
+        "free": 1894887424,
+        "usage": 88,
+        "swap_total": 28028370944,
+        "swap_used": 22385152000,
+        "swap_free": 5643218944
+      },
+      "disk": {
+        "partitions": [
+          {
+            "device": "C:",
+            "mount_point": "C:",
+            "total": 497433964544,
+            "used": 134967050240,
+            "free": 362466914304,
+            "usage": 27.132656766556927
+          },
+          {
+            "device": "D:",
+            "mount_point": "D:",
+            "total": 2000381014016,
+            "used": 191147769856,
+            "free": 1809233244160,
+            "usage": 9.555568090113411
+          }
+        ]
+      },
+      "network": {
+        "interfaces": [
+          {
+            "name": "SV-Connection",
+            "addresses": [
+              "fe80::b517:d776:223c:3f70/64",
+              "100.100.100.3/24"
+            ],
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0
+          },
+          {
+            "name": "WLAN",
+            "addresses": [
+              "fe80::c05a:c5f5:4d0b:73d0/64",
+              "169.254.235.17/16"
+            ],
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0
+          },
+          {
+            "name": "本地连接* 1",
+            "addresses": [
+              "fe80::4b8f:44a7:11b7:7afa/64",
+              "169.254.169.209/16"
+            ],
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0
+          },
+          {
+            "name": "以太网",
+            "addresses": [
+              "fe80::5bb3:68f0:7453:739f/64",
+              "10.128.21.27/24"
+            ],
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0
+          },
+          {
+            "name": "VMware Network Adapter VMnet1",
+            "addresses": [
+              "fe80::c496:f625:98ae:9cc3/64",
+              "192.168.149.1/24"
+            ],
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0
+          },
+          {
+            "name": "VMware Network Adapter VMnet8",
+            "addresses": [
+              "fe80::683c:5dcb:f347:2d34/64",
+              "192.168.138.1/24"
+            ],
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0
+          },
+          {
+            "name": "本地连接* 2",
+            "addresses": [
+              "fe80::82f3:7e85:b193:332b/64",
+              "192.168.137.1/24"
+            ],
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0
+          },
+          {
+            "name": "蓝牙网络连接",
+            "addresses": [
+              "fe80::bbbe:ca71:7f47:d3c0/64",
+              "169.254.249.173/16"
+            ],
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0
+          },
+          {
+            "name": "Loopback Pseudo-Interface 1",
+            "addresses": [
+              "::1/128",
+              "127.0.0.1/8"
+            ],
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0
+          }
+        ]
+      },
+      "os": {
+        "name": "windows",
+        "version": "10.0.19045.5965 Build 19045.5965",
+        "architecture": "x86_64",
+        "platform": "Microsoft Windows 10 Pro"
+      }
+    }
+  ],
+  "max_records": 100
+}

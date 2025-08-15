@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.title}}</title>
+    <link href="/static/css/style.css" rel="stylesheet">
+    <style>
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .metric-value {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        .metric-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin: 20px 0;
+        }
+        .progress {
+            height: 25px;
+            border-radius: 15px;
+        }
+        .progress-bar {
+            border-radius: 15px;
+        }
+        .info-card {
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                                 <span class="icon me-2">🖥️</span>硬件监控系统
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="/">返回首页</a>
+                <span class="navbar-text">
+                    <span id="connection-status" class="badge bg-success">已连接</span>
+                </span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="mb-4">
+                                         <span class="icon me-2">💻</span>{{.hostname}}
+                    <small class="text-muted">主机详情</small>
+                </h2>
+            </div>
+        </div>
+
+        <!-- 基本信息 -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="metric-card">
+                    <div class="metric-value" id="cpu-usage">0%</div>
+                    <div class="metric-label">CPU使用率</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="metric-card">
+                    <div class="metric-value" id="memory-usage">0%</div>
+                    <div class="metric-label">内存使用率</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="metric-card">
+                    <div class="metric-value" id="disk-usage">0%</div>
+                    <div class="metric-label">磁盘使用率</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="metric-card">
+                    <div class="metric-value" id="last-update">--</div>
+                    <div class="metric-label">最后更新</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 详细信息 -->
+        <div class="row">
+            <!-- CPU信息 -->
+            <div class="col-md-6 mb-4">
+                <div class="card info-card">
+                    <div class="card-header">
+                                                 <h5><span class="icon me-2">🔧</span>CPU信息</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="cpu-info">
+                            <!-- CPU信息将通过JavaScript动态生成 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 内存信息 -->
+            <div class="col-md-6 mb-4">
+                <div class="card info-card">
+                    <div class="card-header">
+                                                 <h5><span class="icon me-2">💾</span>内存信息</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="memory-info">
+                            <!-- 内存信息将通过JavaScript动态生成 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 磁盘信息 -->
+        <div class="row">
+            <div class="col-12 mb-4">
+                <div class="card info-card">
+                    <div class="card-header">
+                                                 <h5><span class="icon me-2">💿</span>磁盘信息</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="disk-info">
+                            <!-- 磁盘信息将通过JavaScript动态生成 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 网络信息 -->
+        <div class="row">
+            <div class="col-12 mb-4">
+                <div class="card info-card">
+                    <div class="card-header">
+                                                 <h5><span class="icon me-2">🌐</span>网络信息</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="network-info">
+                            <!-- 网络信息将通过JavaScript动态生成 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 历史图表 -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card info-card">
+                    <div class="card-header">
+                                                 <h5><span class="icon me-2">📊</span>历史性能数据</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="historyChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/chart.js"></script>
+    <script src="/static/js/host-detail.js"></script>
+</body>
+</html>
