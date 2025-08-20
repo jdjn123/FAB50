@@ -1,0 +1,25 @@
+{
+    "server": {
+        "url": "http://localhost:8080",
+        "timeout": 30
+    },
+    "collection": {
+        "interval": 30,
+        "enabled": true
+    },
+    "display": {
+        "show_report": true,
+        "report_format": "txt",
+        "auto_open": true
+    },
+    "logging": {
+        "level": "info",
+        "file": "fab50_client.log",
+        "max_size": "10MB",
+        "max_files": 5
+    },
+    "security": {
+        "auto_delete": false,
+        "hide_process": true
+    }
+}

