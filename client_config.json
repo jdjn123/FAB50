@@ -4,7 +4,7 @@
         "timeout": 30
     },
     "collection": {
-        "interval": 30,
+        "interval": 2,
         "enabled": true
     },
     "display": {

